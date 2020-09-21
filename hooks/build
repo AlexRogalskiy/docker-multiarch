@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-
+set -x
 echo "🔵 build"
 source hooks/.config
 
@@ -12,9 +12,9 @@ for arch in ${verified_build_architectures[@]}; do
   echo "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
   BASE_IMAGE_PREFIX="${base_image_prefix_map[${arch}]}"
+  #--build-arg BASE_IMAGE_PREFIX=${BASE_IMAGE_PREFIX} \
+  #--build-arg ARCH=${arch} \
   docker build \
-    #--build-arg BASE_IMAGE_PREFIX=${BASE_IMAGE_PREFIX} \
-    #--build-arg ARCH=${arch} \
     --file $DOCKERFILE_PATH \
     --tag "${IMAGE_NAME}-${arch}"  \
     .
