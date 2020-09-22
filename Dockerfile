@@ -6,6 +6,8 @@ ARG BASE_IMAGE_PREFIX
 # see hooks/post_checkout
 ARG ARCH
 
+COPY .gitignore qemu-${ARCH}-static* /usr/bin/
+
 ### Set defaults
 ENV ZABBIX_VERSION=5.0.3 \
     S6_OVERLAY_VERSION=v2.1.0.0 \
