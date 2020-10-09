@@ -5,21 +5,27 @@ echo "🔵 build"
 source hooks/.config
 
 echo "✅ Will build the following architectures: $verified_build_architectures"
+  BASE_IMAGE_PREFIX="${base_image_prefix_map[${arch}]}"
+  docker buildx create --use --name ${BASE_IMAGE_PREFIX} ${BASE_IMAGE_PREFIX}-amd64
+  docker buildx create --append --name ${BASEIMAGE_PREFIX} ${BASE_IMAGE_PREFIX}-arm64
+  docker buildx build --platform linux/amd64,linux/arm64 .
 
 for arch in ${verified_build_architectures[@]}; do
   echo "✅ building $arch"
 
-  BASE_IMAGE_PREFIX="${base_image_prefix_map[${arch}]}"
+
   #--build-arg BASE_IMAGE_PREFIX=${BASE_IMAGE_PREFIX} \
   #--build-arg ARCH=${arch} \
-  pwd
-  ls -l
-  docker buildx build \
-  --build-arg ARCH=${arch} \
-  --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
-  --tag ${IMAGE_NAME} \
-  --file ${DOCKERFILE_PATH} \
-  .
+
+  #ls -l
+  #docker buildx build \
+  #--build-arg ARCH=${arch} \
+  #--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+  #--tag ${IMAGE_NAME} \
+  #--file ${DOCKERFILE_PATH} \
+  #.
+
+
 
   #docker build \
     #--build-arg BASE_IMAGE_PREFIX=${BASE_IMAGE_PREFIX} \
