@@ -6,8 +6,8 @@ source hooks/.config
 
 echo "✅ Will build the following architectures: $verified_build_architectures"
   BASE_IMAGE_PREFIX="${base_image_prefix_map[${arch}]}"
-  docker buildx create --use --name ${BASE_IMAGE_PREFIX} ${BASE_IMAGE_PREFIX}-amd64
-  docker buildx create --append --name ${BASE_IMAGE_PREFIX} ${BASE_IMAGE_PREFIX}-arm64
+  docker buildx create --use --name image image-amd64
+  docker buildx create --append --name image image-arm64
   docker buildx build --platform linux/amd64,linux/arm64 .
 
 for arch in ${verified_build_architectures[@]}; do
