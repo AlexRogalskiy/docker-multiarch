@@ -1,12 +1,10 @@
-FROM --platform=BUILDPLATFORM alpine:3.12
-LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
-ARG TARGETPLATFORM
 ARG BASE_IMAGE_PREFIX
 
 # see hooks/post_checkout
-#ARG
+ARG ARCH
 
-#COPY .gitignore qemu-${ARCH}-static* /usr/bin/
+COPY qemu-${ARCH}-static* /usr/bin/
+
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 
 ### Set defaults
