@@ -45,6 +45,7 @@ jobs:
             TAGS=${BRANCHTAG},${GITTAG}
           else
             TAGS="${BRANCHTAG}${GITTAG}"
+          fi
 
           # Set output parameters.
           echo ::set-output name=tags::${TAGS}
