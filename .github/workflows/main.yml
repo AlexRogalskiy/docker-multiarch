@@ -15,10 +15,11 @@ jobs:
       - name: Prepare
         id: prep
         run: |
+          set -x
           DOCKER_IMAGE=${GITHUB_REPOSITORY/docker-/}
-          if [ -n ${{ secrets.LATEST }} ] ; then
+          if [ -n "${{ secrets.LATEST }}" ] ; then
              echo "THERE IS A LATEST SECRET"
-             LATEST=${{ secrets.LATEST }}3.13
+             LATEST="${{ secrets.LATEST }}"
           else
             echo "NO LATEST SECRET DETECTED"
           fi
