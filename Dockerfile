@@ -26,58 +26,7 @@ RUN set -ex && \
         iputils \
         bash \
         pcre \
-        libssl1.1
-    
-### Zabbix compilation
-RUN    apk add --no-cache -t .zabbix-build-deps \
-            coreutils \
-            alpine-sdk \
-            automake \
-            autoconf \
-            openssl-dev \
-            pcre-dev && \
-    \
-    mkdir -p /usr/src/zabbix && \
-    curl -sSL https://github.com/zabbix/zabbix/archive/${ZABBIX_VERSION}.tar.gz | tar xfz - --strip 1 -C /usr/src/zabbix && \
-    cd /usr/src/zabbix && \
-    ./bootstrap.sh 1>/dev/null && \
-    export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now" && \
-    ./configure \
-            --prefix=/usr \
-            --silent \
-            --sysconfdir=/etc/zabbix \
-            --libdir=/usr/lib/zabbix \
-            --datadir=/usr/lib \
-            --enable-agent \
-            --enable-ipv6 \
-            --with-openssl && \
-    make -j"$(nproc)" -s 1>/dev/null && \
-    cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd && \
-    cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender && \
-    cp conf/zabbix_agentd.conf /etc/zabbix && \
-    mkdir -p /etc/zabbix/zabbix_agentd.conf.d && \
-    mkdir -p /var/log/zabbix && \
-    chown -R zabbix:root /var/log/zabbix && \
-    chown --quiet -R zabbix:root /etc/zabbix && \
-    rm -rf /usr/src/zabbix
-### Install MailHog
-RUN    apk add --no-cache -t .mailhog-build-deps \
-            go \
-            git \
-            musl-dev \
-            && \
-    mkdir -p /usr/src/gocode && \
-    cd /usr/src && \
-    export GOPATH=/usr/src/gocode && \
-    go get github.com/mailhog/MailHog && \
-    go get github.com/mailhog/mhsendmail && \
-    mv /usr/src/gocode/bin/MailHog /usr/local/bin && \
-    mv /usr/src/gocode/bin/mhsendmail /usr/local/bin && \
-    rm -rf /usr/src/gocode && \
-    apk del --purge \
-            .mailhog-build-deps .zabbix-build-deps && \
-    \
-    adduser -D -u 1025 mailhog && \
+        libssl1.1 && \
     \
 ### Add core utils
     apk add -t .base-rundeps \
