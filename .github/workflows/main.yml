@@ -75,26 +75,26 @@ jobs:
           ls -l
           if [ -f "Dockerfile" ] ; then
             echo "adding git_repository"
-            sed -i "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" Dockerfile
             echo "adding git_commit"
-            sed -i "/FROM .*\/.*/a LABEL git_commit=\"${GITHUB_SHA}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL git_commit=\"${GITHUB_SHA}\"" Dockerfile
             echo "adding git_committed by"
-            sed -i "/FROM .*\/.*/a LABEL git_committed_by:=\"${GITHUB_ACTOR}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL git_committed_by=\"${GITHUB_ACTOR}\"" Dockerfile
             echo "adding image_build_date"
-            sed -i "/FROM .*\/.*/a LABEL image_build_date:=\"$(date +'%Y-%m-%d %H:%M:%S')\"" Dockerfile
+            sed -i "/FROM .*/a LABEL image_build_date=\"$(date +'%Y-%m-%d %H:%M:%S')\"" Dockerfile
             if [ -f "CHANGELOG.md" ] ; then
               echo "adding git_changelog_version"
-              sed -i "/FROM .*\/.*/a LABEL git_changelog_version:=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" Dockerfile
+              sed -i "/FROM .*/a LABEL git_changelog_version=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" Dockerfile
             fi
 
             if [[ $GITHUB_REF == refs/tags/* ]]; then
               echo "adding git_tag"
-              sed -i "/FROM .*\/.*/a LABEL git_tag:=\"${GITHUB_REF#refs/tags/v}\"" Dockerfile
+              sed -i "/FROM .*/a LABEL git_tag=\"${GITHUB_REF#refs/tags/v}\"" Dockerfile
             fi
 
             if [[ $GITHUB_REF == refs/heads/* ]]; then
               echo "adding git_branch"
-              sed -i "/FROM .*\/.*/a LABEL git_branch:=\"${GITHUB_REF#refs/heads/}\"" Dockerfile
+              sed -i "/FROM .*/a LABEL git_branch=\"${GITHUB_REF#refs/heads/}\"" Dockerfile
             fi
 
             cat Dockerfile
