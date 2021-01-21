@@ -17,18 +17,11 @@ jobs:
         run: |
           set -x
           DOCKER_IMAGE=${GITHUB_REPOSITORY/docker-/}
-          if [ -n "${{ secrets.LATEST }}" ] ; then
-             echo "THERE IS A LATEST SECRET"
-             LATEST="${{ secrets.LATEST }}"
-          else
-            echo "NO LATEST SECRET DETECTED"
-          fi
 
-          # If this is a branch, use the branch name as a docker tag
           if [[ $GITHUB_REF == refs/heads/* ]]; then
             BRANCH=${GITHUB_REF#refs/heads/}
 
-            case $BRANCH in
+            case ${BRANCH} in
               "main" | "master" )
                   BRANCHTAG="${DOCKER_IMAGE}:latest"
                 ;;
@@ -36,13 +29,17 @@ jobs:
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
                 ;;
               * )
-                  if [ "${BRANCHTAG}" = ${LATEST} ]; then
-                    BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest,${DOCKER_IMAGE}:latest"
+                  if [ -n "${{ secrets.LATEST }}" ] ; then
+                    if [ "${BRANCHTAG}" = "${{ secrets.LATEST }}" ]; then
+                      BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest,${DOCKER_IMAGE}:latest"
+                    else
+                      BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest"
+                    fi
+                  fi
                 ;;
             esac
           fi
 
-          # If this is git tag, use the tag name as a docker tag
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             GITTAG="${DOCKER_IMAGE}:${GITHUB_REF#refs/tags/v}"
           fi
@@ -53,7 +50,6 @@ jobs:
             TAGS="${BRANCHTAG}${GITTAG}"
           fi
 
-          # Set output parameters.
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
