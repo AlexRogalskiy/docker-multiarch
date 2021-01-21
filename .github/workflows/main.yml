@@ -1,10 +1,10 @@
-name: 'build images'
+name: 'Build Images'
 
 on:
   push:
-    branches:
-      - master
-
+    paths:
+    - '**'
+    - '!README.md'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -15,10 +15,11 @@ jobs:
       - name: Prepare
         id: prep
         run: |
+          set -x
           DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY#*/}
           VERSION=latest
           SHORTREF=${GITHUB_SHA::8}
-
+          echo "Branch is: ${GITHUB_REF}"
           # If this is git tag, use the tag name as a docker tag
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
