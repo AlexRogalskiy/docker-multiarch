@@ -1,9 +1,4 @@
-ARG BASE_IMAGE_PREFIX
-
-# see hooks/post_checkout
-ARG ARCH
-
-COPY qemu-${ARCH}-static* /usr/bin/
+FROM alpine:edge
 
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 
