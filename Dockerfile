@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.13
 
 ### Set defaults
 ENV ZABBIX_VERSION=5.0.3 \
@@ -12,14 +12,6 @@ ENV ZABBIX_VERSION=5.0.3 \
 
 ### Zabbix pre installation steps
 RUN set -ex && \
-    addgroup -g 10050 zabbix && \
-    adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix && \
-    mkdir -p /etc/zabbix && \
-    mkdir -p /etc/zabbix/zabbix_agentd.d && \
-    mkdir -p /var/lib/zabbix && \
-    mkdir -p /var/lib/zabbix/enc && \
-    mkdir -p /var/lib/zabbix/modules && \
-    chown --quiet -R zabbix:root /var/lib/zabbix && \
     apk update && \
     apk upgrade && \
     apk add \
