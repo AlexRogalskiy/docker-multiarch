@@ -16,7 +16,7 @@ jobs:
         id: prep
         run: |
           set -x
-          DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY/docker-/}
+          DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/$(echo $GITHUB_REPOSITORY | sed "s|docker-||g")
           SHORTREF=${GITHUB_SHA::8}
 
           # If this is a branch, use the branch name as a docker tag
