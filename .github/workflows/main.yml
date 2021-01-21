@@ -72,24 +72,24 @@ jobs:
         run: |
           pwd
           ls -l
-          if [ -f "./Dockerfile" ] ; then
-            sed "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" ./Dockerfile
-            sed "/FROM .*\/.*/a LABEL git_commit=\"${GITHUB_SHA}\"" ./Dockerfile
-            sed "/FROM .*\/.*/a LABEL git_committed_by:=\"${GITHUB_ACTOR}\"" ./Dockerfile
-            sed "/FROM .*\/.*/a LABEL image_build_date:=\"$(date +'%Y-%m-%d %H:%M:%S')\"" ./Dockerfile
-            if [ -f "./CHANGELOG.md" ] ; then
-              sed "/FROM .*\/.*/a LABEL git_changelog_version:=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" ./Dockerfile
+          if [ -f "Dockerfile" ] ; then
+            sed "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" Dockerfile
+            sed "/FROM .*\/.*/a LABEL git_commit=\"${GITHUB_SHA}\"" Dockerfile
+            sed "/FROM .*\/.*/a LABEL git_committed_by:=\"${GITHUB_ACTOR}\"" Dockerfile
+            sed "/FROM .*\/.*/a LABEL image_build_date:=\"$(date +'%Y-%m-%d %H:%M:%S')\"" Dockerfile
+            if [ -f "CHANGELOG.md" ] ; then
+              sed "/FROM .*\/.*/a LABEL git_changelog_version:=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" Dockerfile
             fi
 
             if [[ $GITHUB_REF == refs/tags/* ]]; then
-              sed "/FROM .*\/.*/a LABEL git_tag:=\"${GITHUB_REF#refs/tags/v}\"" ./Dockerfile"
+              sed "/FROM .*\/.*/a LABEL git_tag:=\"${GITHUB_REF#refs/tags/v}\"" Dockerfile
             fi
 
             if [[ $GITHUB_REF == refs/heads/* ]]; then
-              sed "/FROM .*\/.*/a LABEL git_branch:=\"${GITHUB_REF#refs/heads/}\"" ./Dockerfile"
+              sed "/FROM .*\/.*/a LABEL git_branch:=\"${GITHUB_REF#refs/heads/}\"" Dockerfile
             fi
 
-            cat ./Dockerfile
+            cat Dockerfile
           fi
 
       - name: Build
