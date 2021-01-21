@@ -70,6 +70,8 @@ jobs:
       - name: Label
         id: Label
         run: |
+          pwd
+          ls -l
           if [ -f "./Dockerfile" ] ; then
             sed "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" ./Dockerfile
             sed "/FROM .*\/.*/a LABEL git_commit=\"${GITHUB_SHA}\"" ./Dockerfile
