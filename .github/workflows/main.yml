@@ -15,7 +15,6 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          set -x
           DOCKER_IMAGE=${GITHUB_REPOSITORY/docker-/}
 
           if [[ $GITHUB_REF == refs/heads/* ]]; then
