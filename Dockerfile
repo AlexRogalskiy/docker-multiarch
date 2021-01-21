@@ -49,10 +49,10 @@ RUN    apkArch="$(apk --print-arch)"; \
     apk --print-arch && \
     echo "APK ARCH ${apkArch}" && \
     case "$apkArch" in \
-		x86_64) s6Arch='amd64' ;; \
-		armhf) s6Arch='armhf' ;; \
-		aarch64) s6Arch='aarch64' ;; \
-		ppc64le) s6Arch='ppc64le' ;; \
+		'x86_64') s6Arch='amd64' ;; \
+		'armhf' | 'armv7' ) s6Arch='armhf' ;; \
+		'aarch64' ) s6Arch='aarch64' ;; \
+		'ppc64le' ) s6Arch='ppc64le' ;; \
 		*) echo >&2 "Error: unsupported architecture ($apkArch)"; exit 1 ;; \
 	esac; \
     curl -sSL https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-${s6Arch}.tar.gz | tar xfz - -C / && \
