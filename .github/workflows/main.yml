@@ -15,6 +15,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
+          set -x
           DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY/docker-/}
           SHORTREF=${GITHUB_SHA::8}
 
