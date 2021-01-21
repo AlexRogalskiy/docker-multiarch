@@ -67,7 +67,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Label
-      - id: Label
+        id: Label
         run: |
           if [ -f "./Dockerfile" ] ; then
             sed "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" ./Dockerfile
