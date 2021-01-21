@@ -17,7 +17,6 @@ jobs:
         run: |
           set -x
           DOCKER_IMAGE=${{ secrets.DOCKER_USERNAME }}/${GITHUB_REPOSITORY#*/}
-          VERSION=latest
           SHORTREF=${GITHUB_SHA::8}
 
           # If this is a branch, use the branch name as a docker tag
@@ -30,6 +29,7 @@ jobs:
                 ;;
               "develop" )
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
+                ;;
               * )
                   BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest"
                 ;;
@@ -72,10 +72,10 @@ jobs:
           if [ -f "./Dockerfile" ] ; then
             sed "/FROM .*\/.*/a LABEL git_repository=\"${GITHUB_REPOSITORY}\"" ./Dockerfile
             sed "/FROM .*\/.*/a LABEL git_commit=\"${GITHUB_SHA}\"" ./Dockerfile
-            sed "/FROM .*\/.*/a LABEL committed_by:=\"${GITHUB_ACTOR}\"" ./Dockerfile
-            sed "/FROM .*\/.*/a LABEL build_date:=\"$(date +'%Y-%m-%d %H:%M:%S')\"" ./Dockerfile
+            sed "/FROM .*\/.*/a LABEL git_committed_by:=\"${GITHUB_ACTOR}\"" ./Dockerfile
+            sed "/FROM .*\/.*/a LABEL image_build_date:=\"$(date +'%Y-%m-%d %H:%M:%S')\"" ./Dockerfile
             if [ -f "./CHANGELOG.md" ] ; then
-              sed "/FROM .*\/.*/a LABEL changelog_version:=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" ./Dockerfile
+              sed "/FROM .*\/.*/a LABEL git_changelog_version:=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" ./Dockerfile
             fi
 
             if [[ $GITHUB_REF == refs/tags/* ]]; then
