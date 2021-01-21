@@ -1,7 +1,5 @@
 FROM alpine:edge
 
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
-
 ### Set defaults
 ENV ZABBIX_VERSION=5.0.3 \
     S6_OVERLAY_VERSION=v2.1.0.0 \
@@ -28,10 +26,10 @@ RUN set -ex && \
         iputils \
         bash \
         pcre \
-        libssl1.1 && \
-    \
+        libssl1.1
+    
 ### Zabbix compilation
-    apk add --no-cache -t .zabbix-build-deps \
+RUN    apk add --no-cache -t .zabbix-build-deps \
             coreutils \
             alpine-sdk \
             automake \
@@ -61,9 +59,9 @@ RUN set -ex && \
     mkdir -p /var/log/zabbix && \
     chown -R zabbix:root /var/log/zabbix && \
     chown --quiet -R zabbix:root /etc/zabbix && \
-    rm -rf /usr/src/zabbix && \
+    rm -rf /usr/src/zabbix
 ### Install MailHog
-    apk add --no-cache -t .mailhog-build-deps \
+RUN    apk add --no-cache -t .mailhog-build-deps \
             go \
             git \
             musl-dev \
@@ -103,10 +101,11 @@ RUN set -ex && \
     echo '%zabbix ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     \
     ## Quiet down sudo
-    echo "Set disable_coredump false" > /etc/sudo.conf && \
-    \
+    echo "Set disable_coredump false" > /etc/sudo.conf
+   
 ### S6 installation
-    apkArch="$(apk --print-arch)"; \
+RUN    apkArch="$(apk --print-arch)"; \
+    apk --print-arch && \
     echo "APK ARCH ${apkArch}" && \
     case "$apkArch" in \
 		x86_64) s6Arch='amd64' ;; \
