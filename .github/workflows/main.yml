@@ -15,9 +15,13 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          set -x
           DOCKER_IMAGE=${GITHUB_REPOSITORY/docker-/}
-          SHORTREF=${GITHUB_SHA::8}
+          if [ -n ${{ secrets.LATEST }} ] ; then
+             echo "THERE IS A LATEST SECRET"
+             LATEST=${{ secrets.LATEST }}3.13
+          else
+            echo "NO LATEST SECRET DETECTED"
+          fi
 
           # If this is a branch, use the branch name as a docker tag
           if [[ $GITHUB_REF == refs/heads/* ]]; then
@@ -31,7 +35,8 @@ jobs:
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
                 ;;
               * )
-                  BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest"
+                  if [ "${BRANCHTAG}" = ${LATEST} ]; then
+                    BRANCHTAG="${DOCKER_IMAGE}:${BRANCH},${DOCKER_IMAGE}:${BRANCH}-latest,${DOCKER_IMAGE}:latest"
                 ;;
             esac
           fi
