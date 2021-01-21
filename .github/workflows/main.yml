@@ -87,6 +87,9 @@ jobs:
               sed "/FROM .*\/.*/a LABEL git_branch:=\"${GITHUB_REF#refs/heads/}\"" ./Dockerfile"
             fi
 
+            cat ./Dockerfile
+          fi
+
       - name: Build
         uses: docker/build-push-action@v2
         with:
