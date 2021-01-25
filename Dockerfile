@@ -55,10 +55,10 @@ RUN apk add iputils bash pcre libssl1.1
 RUN apk add --no-cache -t .zabbix-build-deps  coreutils  alpine-sdk automake autoconf openssl-dev pcre-dev
 RUN mkdir -p /usr/src/zabbix 
 RUN curl -sSL https://github.com/zabbix/zabbix/archive/${ZABBIX_VERSION}.tar.gz | tar xfz - --strip 1 -C /usr/src/zabbix 
-RUN cd /usr/src/zabbix 
-RUN ./bootstrap.sh 1>/dev/null 
-RUN export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now" 
-RUN ./configure \
+RUN cd /usr/src/zabbix && \
+    ./bootstrap.sh 1>/dev/null && \
+    export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now"  && \
+   ./configure \
             --prefix=/usr \
             --silent \
             --sysconfdir=/etc/zabbix \
@@ -67,10 +67,12 @@ RUN ./configure \
             --enable-agent \
             --enable-ipv6 \
             --with-openssl && \
-RUN make -j"$(nproc)" -s 1>/dev/null
-RUN cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd 
-RUN cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender 
-RUN cp conf/zabbix_agentd.conf /etc/zabbix 
+RUN cd /usr/src/zabbix && \
+     make -j"$(nproc)" -s 1>/dev/null
+RUN cd /usr/src/zabbix && \
+    cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd && \
+    cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender && \
+    cp conf/zabbix_agentd.conf /etc/zabbix
 RUN mkdir -p /etc/zabbix/zabbix_agentd.conf.d 
 RUN mkdir -p /var/log/zabbix 
 RUN chown -R zabbix:root /var/log/zabbix
