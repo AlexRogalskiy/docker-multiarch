@@ -11,22 +11,6 @@ ENV ZABBIX_VERSION=5.2.3 \
     ENABLE_ZABBIX=TRUE \
     ZABBIX_HOSTNAME=alpine
 
-### Install MailHog
-RUN set -x && \
-    apk add --no-cache -t .mailhog-build-deps \
-            go \
-            git \
-            musl-dev \
-            && \
-    mkdir -p /usr/src/gocode && \
-    cd /usr/src && \
-    export GOPATH=/usr/src/gocode && \
-    go get github.com/mailhog/MailHog && \
-    go get github.com/mailhog/mhsendmail && \
-    mv /usr/src/gocode/bin/MailHog /usr/local/bin && \
-    mv /usr/src/gocode/bin/mhsendmail /usr/local/bin && \
-    rm -rf /usr/src/gocode && \
-    \
 ### Add core utils
 RUN set -x && \
    apk add -t .base-rundeps \
