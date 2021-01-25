@@ -26,10 +26,6 @@ RUN set -x && \
     mv /usr/src/gocode/bin/MailHog /usr/local/bin && \
     mv /usr/src/gocode/bin/mhsendmail /usr/local/bin && \
     rm -rf /usr/src/gocode && \
-    apk del --purge \
-            .mailhog-build-deps .zabbix-build-deps && \
-    \
-    adduser -D -u 1025 mailhog
     \
 ### Add core utils
 RUN set -x && \
