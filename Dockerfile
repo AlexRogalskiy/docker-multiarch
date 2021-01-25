@@ -36,40 +36,29 @@ RUN set -x && \
     ## Quiet down sudo
     echo "Set disable_coredump false" > /etc/sudo.conf
     \
+RUN set -x ; apkArch="$(apk --print-arch)";
 
-RUN ### Zabbix pre installation steps
-RUN set -ex && \
-    addgroup -g 10050 zabbix && \
-    adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix && \
-    mkdir -p /etc/zabbix && \
-    mkdir -p /etc/zabbix/zabbix_agentd.d && \
-    mkdir -p /var/lib/zabbix && \
-    mkdir -p /var/lib/zabbix/enc && \
-    mkdir -p /var/lib/zabbix/modules && \
-    chown --quiet -R zabbix:root /var/lib/zabbix && \
-    apk update && \
-    apk upgrade && \
-    apk add \
-        iputils \
-        bash \
-        pcre \
-        libssl1.1 && \
-    \
+RUN set -ex
+RUN addgroup -g 10050 zabbix
+RUN adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix
+RUN mkdir -p /etc/zabbix
+RUN mkdir -p /etc/zabbix/zabbix_agentd.d
+RUN mkdir -p /var/lib/zabbix
+RUN mkdir -p /var/lib/zabbix/enc
+RUN mkdir -p /var/lib/zabbix/modules
+RUN chown --quiet -R zabbix:root /var/lib/zabbix
+RUN apk update
+RUN apk upgrade
+RUN apk add iputils bash pcre libssl1.1
+    
 ### Zabbix compilation
-    apk add --no-cache -t .zabbix-build-deps \
-            coreutils \
-            alpine-sdk \
-            automake \
-            autoconf \
-            openssl-dev \
-            pcre-dev && \
-    \
-    mkdir -p /usr/src/zabbix && \
-    curl -sSL https://github.com/zabbix/zabbix/archive/${ZABBIX_VERSION}.tar.gz | tar xfz - --strip 1 -C /usr/src/zabbix && \
-    cd /usr/src/zabbix && \
-    ./bootstrap.sh 1>/dev/null && \
-    export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now" && \
-    ./configure \
+RUN apk add --no-cache -t .zabbix-build-deps  coreutils  alpine-sdk automake autoconf openssl-dev pcre-dev
+RUN mkdir -p /usr/src/zabbix 
+RUN curl -sSL https://github.com/zabbix/zabbix/archive/${ZABBIX_VERSION}.tar.gz | tar xfz - --strip 1 -C /usr/src/zabbix 
+RUN cd /usr/src/zabbix 
+RUN ./bootstrap.sh 1>/dev/null 
+RUN export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now" 
+RUN ./configure \
             --prefix=/usr \
             --silent \
             --sysconfdir=/etc/zabbix \
@@ -78,15 +67,15 @@ RUN set -ex && \
             --enable-agent \
             --enable-ipv6 \
             --with-openssl && \
-    make -j"$(nproc)" -s 1>/dev/null && \
-    cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd && \
-    cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender && \
-    cp conf/zabbix_agentd.conf /etc/zabbix && \
-    mkdir -p /etc/zabbix/zabbix_agentd.conf.d && \
-    mkdir -p /var/log/zabbix && \
-    chown -R zabbix:root /var/log/zabbix && \
-    chown --quiet -R zabbix:root /etc/zabbix && \
-    rm -rf /usr/src/zabbix
+RUN make -j"$(nproc)" -s 1>/dev/null
+RUN cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd 
+RUN cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender 
+RUN cp conf/zabbix_agentd.conf /etc/zabbix 
+RUN mkdir -p /etc/zabbix/zabbix_agentd.conf.d 
+RUN mkdir -p /var/log/zabbix 
+RUN chown -R zabbix:root /var/log/zabbix
+RUN chown --quiet -R zabbix:root /etc/zabbix
+RUN rm -rf /usr/src/zabbix
 
 ### S6 installation
 RUN set -x && \
