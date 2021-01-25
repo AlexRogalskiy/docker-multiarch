@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM multiarch/alpine:edge
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set defaults
