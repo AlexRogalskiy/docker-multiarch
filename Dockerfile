@@ -13,6 +13,8 @@ ENV ZABBIX_VERSION=5.2.3 \
 
 ### Add core utils
 RUN set -x && \
+   apk update && \
+   apk upgrade && \
    apk add -t .base-rundeps \
             bash \
             busybox-extras \
@@ -25,6 +27,7 @@ RUN set -x && \
             sudo \
             tzdata \
             vim \
+            zabbix-agent \
             && \
     rm -rf /var/cache/apk/* && \
     rm -rf /etc/logrotate.d/acpid && \
@@ -37,47 +40,6 @@ RUN set -x && \
     echo "Set disable_coredump false" > /etc/sudo.conf
     \
 RUN set -x ; apkArch="$(apk --print-arch)";
-
-RUN set -ex
-RUN addgroup -g 10050 zabbix
-RUN adduser -S -D -H -h /dev/null -s /sbin/nologin -G zabbix -u 10050 zabbix
-RUN mkdir -p /etc/zabbix
-RUN mkdir -p /etc/zabbix/zabbix_agentd.d
-RUN mkdir -p /var/lib/zabbix
-RUN mkdir -p /var/lib/zabbix/enc
-RUN mkdir -p /var/lib/zabbix/modules
-RUN chown --quiet -R zabbix:root /var/lib/zabbix
-RUN apk update
-RUN apk upgrade
-RUN apk add iputils bash pcre libssl1.1
-    
-### Zabbix compilation
-RUN apk add --no-cache -t .zabbix-build-deps  coreutils  alpine-sdk automake autoconf openssl-dev pcre-dev
-RUN mkdir -p /usr/src/zabbix 
-RUN curl -sSL https://github.com/zabbix/zabbix/archive/${ZABBIX_VERSION}.tar.gz | tar xfz - --strip 1 -C /usr/src/zabbix 
-RUN cd /usr/src/zabbix && \
-    ./bootstrap.sh 1>/dev/null && \
-    export CFLAGS="-fPIC -pie -Wl,-z,relro -Wl,-z,now"  && \
-   ./configure \
-            --prefix=/usr \
-            --silent \
-            --sysconfdir=/etc/zabbix \
-            --libdir=/usr/lib/zabbix \
-            --datadir=/usr/lib \
-            --enable-agent \
-            --enable-ipv6 \
-            --with-openssl && \
-RUN cd /usr/src/zabbix && \
-     make -j"$(nproc)" -s 1>/dev/null
-RUN cd /usr/src/zabbix && \
-    cp src/zabbix_agent/zabbix_agentd /usr/sbin/zabbix_agentd && \
-    cp src/zabbix_sender/zabbix_sender /usr/sbin/zabbix_sender && \
-    cp conf/zabbix_agentd.conf /etc/zabbix
-RUN mkdir -p /etc/zabbix/zabbix_agentd.conf.d 
-RUN mkdir -p /var/log/zabbix 
-RUN chown -R zabbix:root /var/log/zabbix
-RUN chown --quiet -R zabbix:root /etc/zabbix
-RUN rm -rf /usr/src/zabbix
 
 ### S6 installation
 RUN set -x && \
