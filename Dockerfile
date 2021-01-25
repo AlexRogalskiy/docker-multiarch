@@ -106,6 +106,7 @@ RUN set -ex && \
     \
 ### S6 installation
     apkArch="$(apk --print-arch)"; \
+    echo "ARCH IS $apkArch" ; \
 	case "$apkArch" in \
 		x86_64) s6Arch='amd64' ;; \
 		'armhf' | 'armv7' ) s6Arch='armhf' ;; \
