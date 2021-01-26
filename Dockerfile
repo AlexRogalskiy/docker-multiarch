@@ -41,6 +41,23 @@ RUN set -x && \
     \
 RUN set -x ; apkArch="$(apk --print-arch)";
 
+### Install MailHog
+RUN apk add --no-cache -t .mailhog-build-deps \
+            go \
+            git \
+            musl-dev
+            
+RUN mkdir -p /usr/src/gocode
+RUN cd /usr/src && \
+    export GOPATH=/usr/src/gocode && \
+    go get github.com/mailhog/MailHog && \
+    go get github.com/mailhog/mhsendmail 
+RUN    mv /usr/src/gocode/bin/MailHog /usr/local/bin && \
+    mv /usr/src/gocode/bin/mhsendmail /usr/local/bin && \
+    rm -rf /usr/src/gocode
+RUN    apk del --purge .mailhog-build-deps
+RUN adduser -D -u 1025 mailhog
+
 ### S6 installation
 RUN set -x && \
     apkArch="$(apk --print-arch)"; \
