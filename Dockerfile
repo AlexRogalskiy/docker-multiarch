@@ -36,7 +36,7 @@ RUN set -x && \
             tzdata \
             vim-tiny \
             && \
-    curl https://repo.zabbix.com/zabbix-official-repo.key | apt-key add - && \
+    curl -sSL https://repo.zabbix.com/zabbix-official-repo.key | apt-key add - && \
     echo "deb http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/debian buster main" >>/etc/apt/sources.list && \
     echo "deb-src http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/debian buster main" >>/etc/apt/sources.list && \
     apt-get update && \
