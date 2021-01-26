@@ -13,13 +13,14 @@ ENV ZABBIX_VERSION=5.2.3 \
 
 ### Add core utils
 RUN set -x && \
-   apk update && \
-   apk upgrade && \
-   apk add -t .base-rundeps \
+    apk update && \
+    apk upgrade && \
+    apk add -t .base-rundeps \
             bash \
             busybox-extras \
             curl \
             grep \
+            iputils \
             less \
             logrotate \
             msmtp \
@@ -27,44 +28,23 @@ RUN set -x && \
             sudo \
             tzdata \
             vim \
-            zabbix-agent \
             && \
     rm -rf /var/cache/apk/* && \
-    rm -rf /etc/logrotate.d/acpid && \
-    rm -rf /root/.cache /root/.subversion && \
+    rm -rf /etc/logrotate.d/* && \
+    rm -rf /root/.cache && \
     cp -R /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
     echo "${TIMEZONE}" > /etc/timezone && \
     echo '%zabbix ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     \
     ## Quiet down sudo
-    echo "Set disable_coredump false" > /etc/sudo.conf
+    echo "Set disable_coredump false" > /etc/sudo.conf && \
     \
-RUN set -x ; apkArch="$(apk --print-arch)";
-
-### Install MailHog
-RUN apk add --no-cache -t .mailhog-build-deps \
-            go \
-            git \
-            musl-dev
-            
-RUN mkdir -p /usr/src/gocode
-RUN cd /usr/src && \
-    export GOPATH=/usr/src/gocode && \
-    go get github.com/mailhog/MailHog && \
-    go get github.com/mailhog/mhsendmail 
-RUN    mv /usr/src/gocode/bin/MailHog /usr/local/bin && \
-    mv /usr/src/gocode/bin/mhsendmail /usr/local/bin && \
-    rm -rf /usr/src/gocode
-RUN    apk del --purge .mailhog-build-deps
-RUN adduser -D -u 1025 mailhog
-
 ### S6 installation
-RUN set -x && \
     apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
 		x86_64) s6Arch='amd64' ;; \
 		armv7) s6Arch='arm' ;; \
-        armhf) s6Arch='armhf' ;; \
+                armhf) s6Arch='armhf' ;; \
 		aarch64) s6Arch='aarch64' ;; \
 		ppc64le) s6Arch='ppc64le' ;; \
 		*) echo >&2 "Error: unsupported architecture ($apkArch)"; exit 1 ;; \
@@ -82,4 +62,3 @@ ADD /install /
 
 ### Entrypoint configuration
 ENTRYPOINT ["/init"]
-
