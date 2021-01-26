@@ -1,64 +1,71 @@
-FROM alpine:edge
+FROM debian:buster
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set defaults
-ENV ZABBIX_VERSION=5.2.3 \
-    S6_OVERLAY_VERSION=v2.2.0.1 \
+ENV ZABBIX_VERSION=5.2 \
+    S6_OVERLAY_VERSION=v2.1.0.2 \
     DEBUG_MODE=FALSE \
     TIMEZONE=Etc/GMT \
+    DEBIAN_FRONTEND=noninteractive \
     ENABLE_CRON=TRUE \
     ENABLE_SMTP=TRUE \
     ENABLE_ZABBIX=TRUE \
-    ZABBIX_HOSTNAME=alpine
+    ZABBIX_HOSTNAME=debian.buster
 
-### Add core utils
+### Dependencies addon
 RUN set -x && \
-    apk update && \
-    apk upgrade && \
-    apk add -t .base-rundeps \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+            apt-transport-https \
+            aptitude \
             bash \
-            busybox-extras \
+            ca-certificates \
             curl \
-            grep \
-            iputils \
+            dirmngr \
+            dos2unix \
+            gnupg \
             less \
             logrotate \
             msmtp \
             nano \
+            net-tools \
+            netcat-openbsd \
+            procps \
             sudo \
             tzdata \
-            vim \
+            vim-tiny \
             && \
-    rm -rf /var/cache/apk/* && \
-    rm -rf /etc/logrotate.d/* && \
-    rm -rf /root/.cache && \
-    cp -R /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
+    curl https://repo.zabbix.com/zabbix-official-repo.key | apt-key add - && \
+    echo "deb http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/debian buster main" >>/etc/apt/sources.list && \
+    echo "deb-src http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/debian buster main" >>/etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+            zabbix-agent && \
+    rm -rf /etc/zabbix/zabbix-agentd.conf.d/* && \
+    curl -sSLo /usr/local/bin/MailHog https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64 && \
+    curl -sSLo /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
+    chmod +x /usr/local/bin/MailHog && \
+    chmod +x /usr/local/bin/mhsendmail && \
+    useradd -r -s /bin/false -d /nonexistent mailhog && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/* /root/.gnupg /var/log/* /etc/logrotate.d && \
+    mkdir -p /assets/cron && \
+    rm -rf /etc/timezone && \
+    ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
     echo "${TIMEZONE}" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata && \
     echo '%zabbix ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     \
-    ## Quiet down sudo
-    echo "Set disable_coredump false" > /etc/sudo.conf && \
-    \
 ### S6 installation
-    apkArch="$(apk --print-arch)"; \
-	case "$apkArch" in \
-		x86_64) s6Arch='amd64' ;; \
-		armv7) s6Arch='arm' ;; \
-                armhf) s6Arch='armhf' ;; \
-		aarch64) s6Arch='aarch64' ;; \
-		ppc64le) s6Arch='ppc64le' ;; \
-		*) echo >&2 "Error: unsupported architecture ($apkArch)"; exit 1 ;; \
-	esac; \
-    curl -sSL https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-${s6Arch}.tar.gz | tar xfz - -C / && \
-    mkdir -p /assets/cron && \
-### Clean up
-    rm -rf /usr/src/*
+    curl -sSL https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz | tar xfz - --strip 0 -C /
 
 ### Networking configuration
 EXPOSE 1025 8025 10050/TCP
 
 ### Add folders
-ADD /install /
+ADD install /
 
 ### Entrypoint configuration
 ENTRYPOINT ["/init"]
