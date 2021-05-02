@@ -10,8 +10,7 @@
 ## About
 
 This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://php.net) docker image, suitable for serving PHP scripts, or utilizing as a base image for installing additional software.
-
-* This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash` `curl` `less` `logrotate` `nano` `vim`
+`nano` `vim`
 * Tracking PHP 5.3-8.0
 * Easily enable / disable extensions based on your use case
 * Automatic Log rotation
@@ -37,6 +36,7 @@ This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://
     - [Shell Access](#shell-access)
     - [PHP Extensions](#php-extensions)
     - [Maintenance Mode](#maintenance-mode)
+
 
 ## Prerequisites and Assumptions
 *  Assumes you are using some sort of SSL terminating reverse proxy such as:
@@ -96,7 +96,8 @@ The following directories are used for configuration and can be mapped for persi
 
 #### Base Images used
 
-Be sure to vierw the following repositories to understand all the customizable options:
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash` `curl` `less` `logrotate`.  
+Be sure to view the following repositories to understand all the customizable options:
 
 | Image                                                  | Description                            |
 | ------------------------------------------------------ | -------------------------------------- |
@@ -114,11 +115,9 @@ The container has an ability to work in 3 modes, `nginx-php-fpm` (default) is an
 | `CONTAINER_MODE` | Mode of running container `nginx-php-fpm`, `nginx`, `php-fpm` | `nginx-php-fpm` |
 
 When `CONTAINER_MODE` set to `nginx` the `PHP_FPM_LISTEN_PORT` environment variable is ignored and the `PHP_FPM_HOST` variable defined below changes. You can add multiple PHP-FPM hosts to the backend in this syntax
-<host>:<port> seperated by commas e.g.
+<host>:<port> seperated by commas e.g `php-fpm-container1:9000,php-fpm-container2:9000`
 
-    `php-fpm-container1:9000,php-fpm-container2:9000`
-
-Note: You can also pass arguments to each server as defined in the [Nginx Upstream Documentation](https://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+*You can also pass arguments to each server as defined in the [Nginx Upstream Documentation](https://nginx.org/en/docs/http/ngx_http_upstream_module.html)*
 
 | Parameter                   | Description                                                    | Default                                   |
 | --------------------------- | -------------------------------------------------------------- | ----------------------------------------- |
@@ -203,6 +202,7 @@ The following ports are exposed.
 
 
 ## Maintenance
+Inside the image are tools to perform modification on how the image runs.
 
 ### Shell Access
 For debugging and maintenance purposes you may want access the containers shell.
