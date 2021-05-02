@@ -29,11 +29,14 @@ assignees: ''
 ### Environment
 <!--Your Configuration (please complete the following information): -->
 
-- Exact Iamge version (if :latest) use todays date
-- Host OS
+- Image version / tag:  
+- Host OS:
+
+<details>
+<summary>Any logs | docker-compose.yml</summary>
+</details>
+
 <!-- Include anything additional -->
     
-
 ### Possible fixes
-
 <!-- If you can, provide details to the root cause that might be responsible for the problem. -->
