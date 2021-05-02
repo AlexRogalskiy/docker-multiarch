@@ -1,20 +1,51 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea or feature
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+<!-- Fill in the title above with a one liner of the feature -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+### Problem Statement
+<!-- What is the issue being faced and needs addressing? !-->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+### Who will benefit?
+<!-- Will this fix a problem that only one user has, or will it benefit a lot of people !-->
+
+
+### Benefits and risks
+<!--
+    What benefits does this bring?
+        - reduced support issues
+        - save error prone manual checks
+        - automate labour intensive tasks
+
+    What risks might this introduce?
+        - May result in more data being shared with staff
+        - requires training materials to be updated
+        - Involves working with a specific vendor for a fixed period.
+!-->
+
+### Proposed solution
+<!-- How would you like to see this issue resolved? !-->
+
+
+### Examples
+<!-- Are there any examples of this which exist in other software? !-->
+
+
+### Documentation and Project Plan
+<!-- (Please Attach any Documents, Project Plans, Conceptual Screenshots, additional information either by link or attachment -->
+
+
+### Priority/Severity
+<!-- Delete as appropriate. The priority and severity assigned may be different to this !-->
+- [ ] High (This will bring a huge increase in performance/productivity/usability/legislative cover)
+- [ ] Medium (This will bring a good increase in performance/productivity/usability)
+- [ ] Low (anything else e.g., trivial, minor improvements)
+
+<!-- make sure you /cc appropriate product owners to notify them about this feature request -->
