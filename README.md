@@ -1,9 +1,11 @@
 # github.com/tiredofit/docker-nginx-php-fpm
 
-
-[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nginx-php-fpm.svg)](https://hub.docker.com/r/tiredofit/nginx-php-fpm)
-[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nginx-php-fpm.svg)](https://hub.docker.com/r/tiredofit/nginx-php-fpm)
-[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/nginx-php-fpm.svg)](https://microbadger.com/images/tiredofit/nginx-php-fpm)
+[![GitHub release](https://img.shields.io/github/release/tiredofit/docker-nginx-php-fpm.svg?style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/releases/latest)
+[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nginx-php-fpm/build?label=build&logo=github&style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/actions?query=workflow%3Abuild)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nginx-php-fpm.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nginx-php-fpm/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nginx-php-fpm.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nginx-php-fpm/)
+[![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
+[![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/tiredofit)
 * * *
 
 
