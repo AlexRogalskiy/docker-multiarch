@@ -243,10 +243,10 @@ Welcomed. Please fork the repository and submit a pull request for any bug fixes
 ## Support
 
 ### Usage
-- The [Discussions board](discussions) is a great place for working with the community on tips and tricks of using this image.
+- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
 - Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
 ### Bugfixes
-- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+- Please, submit a [Bug Report](../../issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 
 ### Feature Requests
 - These images were built to serve a specific usage case and gradually have had more functionality added based on requests from the community. Feel freeo to submit a feature addition, however there is no guarantee that it will be added, or at what timeline.
