@@ -28,14 +28,34 @@ This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://
 
 ## Table of Contents
 
-- [Multi Arch](#multi-arch)
+- [About](#about)
+- [Maintainer](#maintainer)
+- [Table of Contents](#table-of-contents)
+- [Prerequisites and Assumptions](#prerequisites-and-assumptions)
+- [Installation](#installation)
+  - [Build from Source](#build-from-source)
+  - [Prebuilt Images](#prebuilt-images)
+    - [Multi Archictecture](#multi-archictecture)
+- [Configuration](#configuration)
+  - [Quick Start](#quick-start)
   - [Data-Volumes](#data-volumes)
-  - [Database](#database)
   - [Environment Variables](#environment-variables)
+    - [Base Images used](#base-images-used)
+    - [Container Options](#container-options)
+    - [Enabling / Disabling Specific Extensions](#enabling--disabling-specific-extensions)
+    - [Debug Options](#debug-options)
   - [Networking](#networking)
-    - [Shell Access](#shell-access)
-    - [PHP Extensions](#php-extensions)
-    - [Maintenance Mode](#maintenance-mode)
+- [Maintenance](#maintenance)
+  - [Shell Access](#shell-access)
+  - [PHP Extensions](#php-extensions)
+  - [Maintenance Mode](#maintenance-mode)
+- [Contributions](#contributions)
+- [Support](#support)
+  - [Usage](#usage)
+  - [Bugfixes](#bugfixes)
+  - [Feature Requests](#feature-requests)
+- [License](#license)
+- [References](#references)
 
 
 ## Prerequisites and Assumptions
@@ -46,7 +66,10 @@ This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://
 
 ## Installation
 
-Builds of the image are available on [Docker Huby](https://hub.docker.com/r/tiredofit/nginx-php-fpm) and is the recommended method of installation.
+### Build from Source
+Clone this repository and build the image with `docker build <arguments> (imagename) .`
+### Prebuilt Images
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/nginx-php-fpm) and is the recommended method of installation.
 
 ```bash
 docker pull tiredofit/nginx-php-fpm:(imagetag)
@@ -67,8 +90,10 @@ The following image tags are available along with their taged release based on w
 | 5.5.x       | 3.4         | `:5.5-latest`  |             |               |
 | 5.3.x       | 3.4         | `:5.3-latest`  |             |               |
 
-### Multi Arch
+#### Multi Archictecture
 Images are built primarily for `amd64` architecture, and may also include builds for `arm/v6`, `arm/v7`, `arm64` and others. These variants are all unsupported. Consider [sponsoring](https://github.com/sponsors/tiredofit) my work so that I can work with various hardware. To see if this image supports multiple architecures, type `docker manifest (image):(tag)`
+
+## Configuration
 
 ### Quick Start
 
@@ -76,9 +101,6 @@ Images are built primarily for `amd64` architecture, and may also include builds
 
 * Set various [environment variables](#environment-variables) to understand the capabilities of this image.
 * Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
-
-## Configuration
-
 
 ### Data-Volumes
 
@@ -96,7 +118,7 @@ The following directories are used for configuration and can be mapped for persi
 
 #### Base Images used
 
-This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash` `curl` `less` `logrotate`.  
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash` `curl` `less` `logrotate`.
 Be sure to view the following repositories to understand all the customizable options:
 
 | Image                                                  | Description                            |
@@ -144,34 +166,34 @@ When `CONTAINER_MODE` set to `nginx` the `PHP_FPM_LISTEN_PORT` environment varia
 
 Enable extensions by using the PHP extension name ie redis as `PHP_ENABLE_REDIS=TRUE`. Core extensions are enabled by default are:
 
-| Parameter              | Default     |
-| ---------------------- | --------- |
-| `PHP_ENABLE_APCU`      | `TRUE` |
-| `PHP_ENABLE_BCMATH`    | `TRUE` |
-| `PHP_ENABLE_BZ2`       | `TRUE` |
-| `PHP_ENABLE_CTYPE`     | `TRUE` |
-| `PHP_ENABLE_CURL`      | `TRUE` |
-| `PHP_ENABLE_DOM`       | `TRUE` |
-| `PHP_ENABLE_EXIF`      | `TRUE` |
-| `PHP_ENABLE_FILEINFO`  | `TRUE` |
-| `PHP_ENABLE_GD`        | `TRUE` |
-| `PHP_ENABLE_ICONV`     | `TRUE` |
-| `PHP_ENABLE_IMAP`      | `TRUE` |
-| `PHP_ENABLE_INTL`      | `TRUE` |
-| `PHP_ENABLE_JSON`      | `TRUE` |
-| `PHP_ENABLE_MBSTRING`  | `TRUE` |
-| `PHP_ENABLE_MYSQLI`    | `TRUE` |
-| `PHP_ENABLE_MYSQLND`   | `TRUE` |
-| `PHP_ENABLE_OPCACHE`   | `TRUE` |
-| `PHP_ENABLE_PDO`       | `TRUE` |
-| `PHP_ENABLE_PDO_MYSQL` | `TRUE` |
-| `PHP_ENABLE_PGSQL`     | `TRUE` |
-| `PHP_ENABLE_PHAR`      | `TRUE` |
-| `PHP_ENABLE_SIMPLEXML` | `TRUE` |
-| `PHP_ENABLE_TOKENIZER` | `TRUE` |
-| `PHP_ENABLE_XML`       | `TRUE` |
-| `PHP_ENABLE_XMLREADER` | `TRUE` |
-| `PHP_ENABLE_XMLWRITER` | `TRUE` |
+| Parameter              | Default |
+| ---------------------- | ------- |
+| `PHP_ENABLE_APCU`      | `TRUE`  |
+| `PHP_ENABLE_BCMATH`    | `TRUE`  |
+| `PHP_ENABLE_BZ2`       | `TRUE`  |
+| `PHP_ENABLE_CTYPE`     | `TRUE`  |
+| `PHP_ENABLE_CURL`      | `TRUE`  |
+| `PHP_ENABLE_DOM`       | `TRUE`  |
+| `PHP_ENABLE_EXIF`      | `TRUE`  |
+| `PHP_ENABLE_FILEINFO`  | `TRUE`  |
+| `PHP_ENABLE_GD`        | `TRUE`  |
+| `PHP_ENABLE_ICONV`     | `TRUE`  |
+| `PHP_ENABLE_IMAP`      | `TRUE`  |
+| `PHP_ENABLE_INTL`      | `TRUE`  |
+| `PHP_ENABLE_JSON`      | `TRUE`  |
+| `PHP_ENABLE_MBSTRING`  | `TRUE`  |
+| `PHP_ENABLE_MYSQLI`    | `TRUE`  |
+| `PHP_ENABLE_MYSQLND`   | `TRUE`  |
+| `PHP_ENABLE_OPCACHE`   | `TRUE`  |
+| `PHP_ENABLE_PDO`       | `TRUE`  |
+| `PHP_ENABLE_PDO_MYSQL` | `TRUE`  |
+| `PHP_ENABLE_PGSQL`     | `TRUE`  |
+| `PHP_ENABLE_PHAR`      | `TRUE`  |
+| `PHP_ENABLE_SIMPLEXML` | `TRUE`  |
+| `PHP_ENABLE_TOKENIZER` | `TRUE`  |
+| `PHP_ENABLE_XML`       | `TRUE`  |
+| `PHP_ENABLE_XMLREADER` | `TRUE`  |
+| `PHP_ENABLE_XMLWRITER` | `TRUE`  |
 
 To enable all extensions in image use `PHP_KITCHENSINK=TRUE`. Head inside the image and see what extensions are available by typing `php-ext list all`
 
@@ -215,9 +237,23 @@ If you want to enable or disable or list what PHP extensions are available, type
 
 ### Maintenance Mode
 If you wish to turn the web server into maintenance mode showing a single page screen outlining that the service is being worked on, you can also enter into the container and type `maintenance ARG`, where ARG is either `ON`,`OFF`, or `SLEEP (seconds)` which will temporarily place the site in maintenance mode and then restore it back to normal after time has passed.
+## Contributions
+Welcomed. Please fork the repository and submit a pull request for any bug fixes, features or additions you propose to be included in the image. If it does not impact my intended usage case, it will be merged into the tree, tagged as a release with credits to the contributor.
 
+## Support
+
+### Usage
+- The [Discussions board](discussions) is a great place for working with the community on tips and tricks of using this image.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+### Bugfixes
+- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+
+### Feature Requests
+- These images were built to serve a specific usage case and gradually have had more functionality added based on requests from the community. Feel freeo to submit a feature addition, however there is no guarantee that it will be added, or at what timeline.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) regarding development of features.
 ## License
 MIT. See [LICENSE](LICENSE)LICENSE for more details.
+
 ## References
 
 * http://www.php.org
