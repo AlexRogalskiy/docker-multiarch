@@ -238,21 +238,20 @@ If you want to enable or disable or list what PHP extensions are available, type
 ### Maintenance Mode
 If you wish to turn the web server into maintenance mode showing a single page screen outlining that the service is being worked on, you can also enter into the container and type `maintenance ARG`, where ARG is either `ON`,`OFF`, or `SLEEP (seconds)` which will temporarily place the site in maintenance mode and then restore it back to normal after time has passed.
 ## Contributions
-Welcomed. Please fork the repository and submit a pull request for any bug fixes, features or additions you propose to be included in the image. If it does not impact my intended usage case, it will be merged into the tree, tagged as a release with credits to the contributor.
+Welcomed. Please fork the repository and submit a [pull request](../../pulls) for any bug fixes, features or additions you propose to be included in the image. If it does not impact my intended usage case, it will be merged into the tree, tagged as a release and credit to the contributor in the [CHANGELOG](CHANGELOG).
 
 ## Support
-
 ### Usage
-- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
+- The [Discussions board](discussions) is a great place for working with the community on tips and tricks of using this image.
 - Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
 ### Bugfixes
-- Please, submit a [Bug Report](../../issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 
 ### Feature Requests
 - These images were built to serve a specific usage case and gradually have had more functionality added based on requests from the community. Feel freeo to submit a feature addition, however there is no guarantee that it will be added, or at what timeline.
 - Consider [sponsoring me](https://github.com/sponsors/tiredofit) regarding development of features.
 ## License
-MIT. See [LICENSE](LICENSE)LICENSE for more details.
+MIT. See [LICENSE](LICENSE) for more details.
 
 ## References
 
