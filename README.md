@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-nginx-php-fpm
 
-[![GitHub release](https://img.shields.io/github/release/tiredofit/docker-nginx-php-fpm.svg?style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nginx-php-fpm/build?label=Build%20images&logo=github&style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/actions?query=workflow%3ABuild%20images)
+[![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-nginx-php-fpm?style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/releases/latest)
+[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-nginx-php-fpm/Build%20Images?style=flat-square)](https://github.com/tiredofit/docker-nginx-php-fpm/actions?query=workflow%3ABuild%20images)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/nginx-php-fpm.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nginx-php-fpm/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/nginx-php-fpm.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/nginx-php-fpm/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
@@ -21,9 +21,6 @@ This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://
 * XDebug capability
 * Caching via APC, opcache
 * Includes client libraries for [MariaDB](https://www.mariadb.org) and [Postgresql](https://www.postgresql.org)
-
-
-[Changelog](CHANGELOG.md)
 
 ## Maintainer
 
