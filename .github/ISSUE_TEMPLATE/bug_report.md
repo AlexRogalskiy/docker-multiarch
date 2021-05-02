@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: If something isn't working right..
+title: ''
+labels: bug
+assignees: ''
+
+---
+
 ### Summary
 
 <!-- Summarize the bug encountered -->
@@ -27,7 +36,3 @@
 ### Possible fixes
 
 <!-- If you can, provide details to the root cause that might be responsible for the problem. -->
-
-
-/label ~bug
-
