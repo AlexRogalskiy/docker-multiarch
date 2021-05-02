@@ -17,12 +17,6 @@ assignees: ''
 <!-- Describe how one can reproduce the issue - this is very important. Please use an ordered list. -->
 
 
-
-### What is the current *bug* behavior?
-
-<!-- Describe what actually happens. -->
-
-
 ### What is the expected *correct* behavior?
 
 <!-- Describe what should be seen instead. -->
@@ -32,6 +26,13 @@ assignees: ''
 
 <!-- Paste any relevant logs - please use code blocks (```) to format console output, logs, and code as it's tough to read otherwise. -->
 
+### Environment
+<!--Your Configuration (please complete the following information): -->
+
+- Exact Iamge version (if :latest) use todays date
+- Host OS
+<!-- Include anything additional -->
+    
 
 ### Possible fixes
 
