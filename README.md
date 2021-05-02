@@ -54,6 +54,7 @@ This repository will build a [Nginx](https://www.nginx.org) w/[PHP-FPM](https://
   - [Usage](#usage)
   - [Bugfixes](#bugfixes)
   - [Feature Requests](#feature-requests)
+  - [Updates](#updates)
 - [License](#license)
 - [References](#references)
 
@@ -241,15 +242,22 @@ If you wish to turn the web server into maintenance mode showing a single page s
 Welcomed. Please fork the repository and submit a [pull request](../../pulls) for any bug fixes, features or additions you propose to be included in the image. If it does not impact my intended usage case, it will be merged into the tree, tagged as a release and credit to the contributor in the [CHANGELOG](CHANGELOG).
 
 ## Support
+
+These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
 ### Usage
-- The [Discussions board](discussions) is a great place for working with the community on tips and tricks of using this image.
+- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
 - Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
 ### Bugfixes
 - Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 
 ### Feature Requests
-- These images were built to serve a specific usage case and gradually have had more functionality added based on requests from the community. Feel freeo to submit a feature addition, however there is no guarantee that it will be added, or at what timeline.
+- Feel free to submit a feature request, however there is no guarantee that it will be added, or at what timeline.
 - Consider [sponsoring me](https://github.com/sponsors/tiredofit) regarding development of features.
+
+### Updates
+- Best effort to track upstream changes, More priority if I am actively using the image in a production environment.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for up to date releases.
+
 ## License
 MIT. See [LICENSE](LICENSE) for more details.
 
