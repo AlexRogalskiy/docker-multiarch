@@ -94,7 +94,7 @@ The following directories are used for configuration and can be mapped for persi
 * * *
 ### Environment Variables
 
-**Base Images used**
+#### Base Images used
 
 Be sure to vierw the following repositories to understand all the customizable options:
 
@@ -104,7 +104,7 @@ Be sure to vierw the following repositories to understand all the customizable o
 | [Nginx](https://github.com/tiredofit/docker-nginx/)    | Nginx webserver                        |
 
 
-**Container Options**
+#### Container Options
 
 The container has an ability to work in 3 modes, `nginx-php-fpm` (default) is an All in One image with nginx and php-fpm working together, `nginx` will only utilize nginx however not the included php-fpm instance, allowing for connecting to multiple remote php-fpm backends, and finally `php-fpm` to operate PHP-FPM in standalone mode.
 
@@ -141,7 +141,7 @@ Note: You can also pass arguments to each server as defined in the [Nginx Upstre
 | `PHP_UPLOAD_MAX_SIZE`       | Maximum Input Size for Uploads                                 | `2G`                                      |
 | `PHP_WEBROOT`               | Used with `CONTAINER_MODE=php-fpm`                             | `/www/html`                               |
 
-**Enabling / Disabling Specific Extensions**
+#### Enabling / Disabling Specific Extensions
 
 Enable extensions by using the PHP extension name ie redis as `PHP_ENABLE_REDIS=TRUE`. Core extensions are enabled by default are:
 
@@ -176,7 +176,7 @@ Enable extensions by using the PHP extension name ie redis as `PHP_ENABLE_REDIS=
 
 To enable all extensions in image use `PHP_KITCHENSINK=TRUE`. Head inside the image and see what extensions are available by typing `php-ext list all`
 
-**Debug Options**
+#### Debug Options
 To enable XDebug set `PHP_ENABLE_XDEBUG=TRUE`. Visit the [PHP XDebug Documentation](https://xdebug.org/docs/all_settings#remote_connect_back) to understand what these options mean.
 
 | Parameter                            | Description                                |
@@ -192,6 +192,7 @@ To enable XDebug set `PHP_ENABLE_XDEBUG=TRUE`. Visit the [PHP XDebug Documentati
 | `PHP_XDEBUG_REMOTE_PORT`             | XDebug Remote Port                         | `9090`              |
 
 * * *
+
 ### Networking
 
 The following ports are exposed.
